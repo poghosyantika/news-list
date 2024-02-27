@@ -1,12 +1,23 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "extends": ["airbnb", "airbnb/hooks", "prettier"],
+  "plugins": ["@nrwl/nx", "prettier"],
+  "rules": {
+    "prettier/prettier": "error"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "@nx/enforce-module-boundaries": [
+        "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
             "enforceBuildableLibDependency": true,
@@ -18,17 +29,39 @@
               }
             ]
           }
-        ]
+        ],
+        "import/no-named-as-default": "off",
+        "import/prefer-default-export": "off",
+        "import/no-extraneous-dependencies": [
+          "warn",
+          {
+            "packageDir": "./"
+          }
+        ],
+        "react/function-component-definition": [
+          "error",
+          {
+            "namedComponents": ["arrow-function"],
+            "unnamedComponents": ["arrow-function"]
+          }
+        ],
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/prop-types": "off",
+        "react/require-default-props": "off",
+        "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"]
       }
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"],
-      "rules": {}
+      "extends": ["airbnb-typescript", "plugin:@nrwl/nx/typescript"],
+      "rules": {
+        "@typescript-eslint/no-non-null-assertion": "off"
+      }
     },
     {
       "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nx/javascript"],
+      "extends": ["plugin:@nrwl/nx/javascript"],
       "rules": {}
     },
     {
@@ -36,7 +69,9 @@
       "env": {
         "jest": true
       },
-      "rules": {}
+      "rules": {
+        "no-console": "off"
+      }
     }
   ]
 }
